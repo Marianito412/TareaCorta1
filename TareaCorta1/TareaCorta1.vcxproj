@@ -154,7 +154,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Nodos\NodoBase.cpp" />
+    <ClCompile Include="Nodos\NodoNumero.cpp" />
+    <ClCompile Include="Nodos\NodoOperador.cpp" />
     <ClCompile Include="TareaCorta1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Nodos\NodoBase.h" />
+    <ClInclude Include="Nodos\NodoNumero.h" />
+    <ClInclude Include="Nodos\NodoOperador.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
