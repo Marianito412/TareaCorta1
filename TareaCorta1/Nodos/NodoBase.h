@@ -12,4 +12,6 @@ public:
     virtual ~NodoBase() = default;
     ETipoNodo TipoNodo = ETipoNodo::Numero;
     NodoBase* Siguiente = nullptr;
+
+    virtual void Mostrar();
 };

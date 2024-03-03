@@ -1,53 +1,53 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include "ColaEstatica/ColaEstatica.h"
+#include "Nodos/NodoBase.h"
+#include "Nodos/NodoNumero.h"
+#include "Nodos/NodoOperador.h"
+using namespace std;
+
 /*
  *Tarea Corta 1
  * Elaborado por:
  *      Jose Mariano Soto Núñez, 2020142918
  *      Pablo Ramirez
  */
-#include <iostream>
-#include <map>
 
-#include "Nodos/NodoBase.h"
-#include "Nodos/NodoNumero.h"
-#include "Nodos/NodoOperador.h"
+static const string DIRECTORIO = "C:/Expresiones/";
 
-void CargarArchivos(FILE* Archivo)
+void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
 {
-    //D:/TEC/2024 SEMESTRE 1/ESTRUCTURAS DE DATOS GR 1/TareasCortas/TareaCorta
-    fopen_s(&Archivo, "D:/TEC/2024 SEMESTRE 1/ESTRUCTURAS DE DATOS GR 1/TareasCortas/TareaCorta1/archivo.txt", "r");
-
-    if (NULL == Archivo) {
-        printf("No se pudo abrir el archivo");
-    }
-    else {
-        char agregado[2];
-        while (fgets(agregado, 2, Archivo) != NULL) {
-            std::cout << agregado;
+    ifstream Archivo;
+    ListaSimple ListaArchivo;
+    const string Directorio = DIRECTORIO+NombreArchivo;
+    
+    Archivo.open(Directorio);
+    for (string Linea; getline(Archivo, Linea); ) 
+    {
+        //Jank
+        bool EsOperador = Linea=="+" || Linea=="-" || Linea=="*" || Linea=="/" || Linea=="^" || Linea=="(" || Linea==")";
+        
+        //cout<<Linea<<endl;
+        if (EsOperador)
+        {
+            ListaArchivo.AgregarNodo(new NodoOperador(Linea));    
+        }else
+        {
+            ListaArchivo.AgregarNodo(new NodoNumero(stof(Linea)));
         }
-        std::cout << std::endl;
-        fclose(Archivo);
     }
+    ListaArchivo.Mostrar();
+    ColaArchivos.Insertar(&ListaArchivo);
 }
 
 int main()
 {
-
-    FILE* Archivo = nullptr;
-    CargarArchivos(Archivo);
-    ETipoNodo T= ETipoNodo::Numero;
-    
-    NodoNumero* n1 = new NodoNumero(2.0);
-
-    n1->Siguiente = new NodoNumero(3.0);
-
-    n1->Siguiente->Siguiente = new NodoOperador(ETipoOperador::Suma);
-
-    NodoBase* aux = n1;
-    while (aux)
-    {
-        std::cout<<aux->TipoNodo<<std::endl;
-        aux= aux->Siguiente;
-    }
-    
+    ColaEstatica ColaArchivos;
+    CargarArchivo(ColaArchivos, "Arch1.txt");
+    CargarArchivo(ColaArchivos, "Arch2.txt");
+    CargarArchivo(ColaArchivos, "Arch3.txt");
+    CargarArchivo(ColaArchivos, "Arch4.txt");
+    CargarArchivo(ColaArchivos, "Arch5.txt");
     return 0;
 }

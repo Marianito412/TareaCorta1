@@ -11,4 +11,6 @@ public:
         Valor = valor;
         TipoNodo = ETipoNodo::Numero;
     }
+
+    void Mostrar() override;
 };
