@@ -5,5 +5,4 @@
 void NodoNumero::Mostrar()
 {
     std::cout<<Valor;
-    NodoBase::Mostrar();
 }

@@ -20,7 +20,7 @@ void ListaSimple::AgregarNodo(NodoBase* Nodo)
 void ListaSimple::Mostrar()
 {
     NodoBase* Aux = Primero;
-    while (Aux)
+    while (Aux!=nullptr)
     {
         Aux->Mostrar();
         std::cout << " -> ";

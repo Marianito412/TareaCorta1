@@ -16,4 +16,6 @@ public:
     void Insertar(ListaSimple* Lista);
 
     void Eliminar();
+
+    void Mostrar();
 };

@@ -19,7 +19,7 @@ static const string DIRECTORIO = "C:/Expresiones/";
 void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
 {
     ifstream Archivo;
-    ListaSimple ListaArchivo;
+    ListaSimple* ListaArchivo = new ListaSimple();
     const string Directorio = DIRECTORIO+NombreArchivo;
     
     Archivo.open(Directorio);
@@ -28,17 +28,16 @@ void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
         //Jank
         bool EsOperador = Linea=="+" || Linea=="-" || Linea=="*" || Linea=="/" || Linea=="^" || Linea=="(" || Linea==")";
         
-        //cout<<Linea<<endl;
         if (EsOperador)
         {
-            ListaArchivo.AgregarNodo(new NodoOperador(Linea));    
+            ListaArchivo->AgregarNodo(new NodoOperador(Linea));    
         }else
         {
-            ListaArchivo.AgregarNodo(new NodoNumero(stof(Linea)));
+            ListaArchivo->AgregarNodo(new NodoNumero(stof(Linea)));
         }
     }
-    ListaArchivo.Mostrar();
-    ColaArchivos.Insertar(&ListaArchivo);
+    //ListaArchivo.Mostrar();
+    ColaArchivos.Insertar(ListaArchivo);
 }
 
 int main()
@@ -49,5 +48,6 @@ int main()
     CargarArchivo(ColaArchivos, "Arch3.txt");
     CargarArchivo(ColaArchivos, "Arch4.txt");
     CargarArchivo(ColaArchivos, "Arch5.txt");
+    ColaArchivos.Mostrar();
     return 0;
 }

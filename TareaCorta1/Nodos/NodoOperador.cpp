@@ -9,6 +9,5 @@ void NodoOperador::Mostrar()
             std::cout<<mapa_operador.first;
             return;
         }
-    } 
-    NodoBase::Mostrar();
+    }
 }
