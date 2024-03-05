@@ -18,7 +18,7 @@ void ColaEstatica::Insertar(ListaSimple* Lista)
     if(Fondo <=TAMANO-1){
         Fondo++;
         Cola[Fondo]= Lista;
-        cout<<"ColaEstatica::Insertar Nuevo Fondo:"<<Fondo<<endl;
+        //cout<<"ColaEstatica::Insertar Nuevo Fondo:"<<Fondo<<endl;
     }
     else{
         cout<<"La cola esta llena";  

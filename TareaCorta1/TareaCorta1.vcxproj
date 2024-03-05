@@ -229,6 +229,7 @@
       <SDLCheck>true</SDLCheck>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="ListaSimple\PilaDinamica.cpp" />
     <ClCompile Include="Nodos\NodoBase.cpp" />
     <ClCompile Include="Nodos\NodoNumero.cpp" />
     <ClCompile Include="Nodos\NodoOperador.cpp" />
@@ -237,6 +238,7 @@
   <ItemGroup>
     <ClInclude Include="ColaEstatica\ColaEstatica.h" />
     <ClInclude Include="ListaSimple\ListaSimple.h" />
+    <ClInclude Include="ListaSimple\PilaDinamica.h" />
     <ClInclude Include="Nodos\NodoBase.h" />
     <ClInclude Include="Nodos\NodoNumero.h" />
     <ClInclude Include="Nodos\NodoOperador.h" />

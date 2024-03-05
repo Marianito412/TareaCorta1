@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include "ColaEstatica/ColaEstatica.h"
+#include "ListaSimple/PilaDinamica.h"
 #include "Nodos/NodoBase.h"
 #include "Nodos/NodoNumero.h"
 #include "Nodos/NodoOperador.h"
@@ -40,8 +41,23 @@ void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
     ColaArchivos.Insertar(ListaArchivo);
 }
 
+void EvaluarPostOperacion(PilaDinamica* Pila)
+{
+    while (NodoBase* Nodo = Pila->Pop())
+    {
+        Nodo->Mostrar();
+        float Num2 = static_cast<NodoNumero*>(Pila->Pop())->Valor;
+        float Num1 = static_cast<NodoNumero*>(Pila->Pop())->Valor;
+
+        float Resultado = static_cast<NodoOperador*>(Nodo)->Evaluar(Num1, Num2);
+
+        Pila->AgregarNodo(new NodoNumero(Resultado));
+    }
+}
+
 int main()
 {
+    //Cargar archivos
     ColaEstatica ColaArchivos;
     CargarArchivo(ColaArchivos, "Arch1.txt");
     CargarArchivo(ColaArchivos, "Arch2.txt");
@@ -49,5 +65,13 @@ int main()
     CargarArchivo(ColaArchivos, "Arch4.txt");
     CargarArchivo(ColaArchivos, "Arch5.txt");
     ColaArchivos.Mostrar();
+
+    PilaDinamica* Pila = new PilaDinamica();
+
+    Pila->AgregarNodo(new NodoNumero(3));
+    Pila->AgregarNodo(new NodoNumero(4));
+    Pila->AgregarNodo(new NodoOperador("+"));
+
+    EvaluarPostOperacion(Pila);
     return 0;
 }
