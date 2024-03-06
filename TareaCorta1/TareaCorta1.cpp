@@ -41,18 +41,29 @@ void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
     ColaArchivos.Insertar(ListaArchivo);
 }
 
-void EvaluarPostOperacion(PilaDinamica* Pila)
+//Evalua la expresion en postfijo y retorna una pila que debería contener un unico elemento con el resultado final de la evaluación
+PilaDinamica* EvaluarPostOperacion(ListaSimple* ExpPost)
 {
-    while (NodoBase* Nodo = Pila->Pop())
+    NodoBase* Aux = ExpPost->Primero;
+    PilaDinamica* PilaNums = new PilaDinamica();
+    while (Aux)
     {
-        Nodo->Mostrar();
-        float Num2 = static_cast<NodoNumero*>(Pila->Pop())->Valor;
-        float Num1 = static_cast<NodoNumero*>(Pila->Pop())->Valor;
+        if (Aux->TipoNodo == ETipoNodo::Numero)
+        {
+            PilaNums->AgregarNodo(new NodoNumero(dynamic_cast<NodoNumero*>(Aux)->Valor));
+        }
+        else
+        {
+            float Num2 = dynamic_cast<NodoNumero*>(PilaNums->Pop())->Valor;
+            float Num1 = dynamic_cast<NodoNumero*>(PilaNums->Pop())->Valor;
 
-        float Resultado = static_cast<NodoOperador*>(Nodo)->Evaluar(Num1, Num2);
-
-        Pila->AgregarNodo(new NodoNumero(Resultado));
+            const float Resultado = dynamic_cast<NodoOperador*>(Aux)->Evaluar(Num1, Num2);
+            PilaNums->AgregarNodo(new NodoNumero(Resultado));
+        }
+        Aux = Aux->Siguiente;
     }
+    return PilaNums;
+    //PilaNums->Mostrar();
 }
 
 int main()
@@ -66,12 +77,20 @@ int main()
     CargarArchivo(ColaArchivos, "Arch5.txt");
     ColaArchivos.Mostrar();
 
-    PilaDinamica* Pila = new PilaDinamica();
+    ListaSimple* ExpPostFijo = new ListaSimple();
 
-    Pila->AgregarNodo(new NodoNumero(3));
-    Pila->AgregarNodo(new NodoNumero(4));
-    Pila->AgregarNodo(new NodoOperador("+"));
+    //3 5 * 2 4 * + 6 -
+    ExpPostFijo->AgregarNodo(new NodoNumero(3));
+    ExpPostFijo->AgregarNodo(new NodoNumero(5));
+    ExpPostFijo->AgregarNodo(new NodoOperador("*"));
+    ExpPostFijo->AgregarNodo(new NodoNumero(2));
+    ExpPostFijo->AgregarNodo(new NodoNumero(4));
+    ExpPostFijo->AgregarNodo(new NodoOperador("*"));
+    ExpPostFijo->AgregarNodo(new NodoOperador("+"));
+    ExpPostFijo->AgregarNodo(new NodoNumero(6));
+    ExpPostFijo->AgregarNodo(new NodoOperador("-"));
 
-    EvaluarPostOperacion(Pila);
+    PilaDinamica* PilaResultado = EvaluarPostOperacion(ExpPostFijo);
+    PilaResultado->Mostrar();
     return 0;
 }
