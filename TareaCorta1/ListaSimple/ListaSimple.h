@@ -3,10 +3,12 @@
 
 class ListaSimple
 {
-    NodoBase* Primero = nullptr;
+protected:
+    
 public:
-
-    void AgregarNodo(NodoBase* Nodo);
+    NodoBase* Primero = nullptr;
+    bool ListaVacia(){return Primero==nullptr;}
+    virtual void AgregarNodo(NodoBase* Nodo);
 
     void Mostrar();
 };
