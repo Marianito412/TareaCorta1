@@ -35,6 +35,11 @@ void ColaEstatica::Eliminar()
     }
 }
 
+ListaSimple* ColaEstatica::GetElemento(int Pos)
+{
+    return Cola[Pos];
+}
+
 void ColaEstatica::Mostrar()
 {
     for (const auto cola : Cola)

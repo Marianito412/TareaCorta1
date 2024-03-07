@@ -30,6 +30,29 @@ float NodoOperador::Evaluar(float Num1, float Num2)
     }
 }
 
+int NodoOperador::GetPrioridad(bool EnPila)
+{
+    switch (Operador)
+    {
+    case ETipoOperador::Suma:
+        return 1;
+    case ETipoOperador::Resta:
+        return 1;
+        break;
+    case ETipoOperador::Multiplicacion:
+        return 2;
+    case ETipoOperador::Division:
+        return 2;
+    case ETipoOperador::Potencia:
+        return EnPila? 3:4;
+    case ETipoOperador::ParentesisAbre:
+        return EnPila? 0:5;
+    case ETipoOperador::ParentesisCierra:
+        return -1;
+    }
+    return -1;
+}
+
 void NodoOperador::Mostrar()
 {
     switch (Operador)

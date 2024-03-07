@@ -17,8 +17,8 @@ enum ETipoOperador
 
 class NodoOperador: public NodoBase
 {
-    ETipoOperador Operador;
 public:
+    ETipoOperador Operador;
     NodoOperador(ETipoOperador Op)
     {
         Operador = Op;
@@ -34,6 +34,8 @@ public:
     ETipoOperador TraducirString(std::string operador);
     
     virtual float Evaluar(float Num1, float Num2);
+
+    int GetPrioridad(bool EnPila);
 
     void Mostrar() override;
 };

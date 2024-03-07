@@ -3,8 +3,6 @@
 
 class ListaSimple
 {
-protected:
-    
 public:
     NodoBase* Primero = nullptr;
     bool ListaVacia(){return Primero==nullptr;}

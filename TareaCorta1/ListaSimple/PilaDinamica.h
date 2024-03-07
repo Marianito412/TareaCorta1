@@ -5,8 +5,8 @@
 
 class PilaDinamica : public ListaSimple
 {
-    NodoBase* Tope = nullptr;
 public:
+    NodoBase* Tope = nullptr;
     void AgregarNodo(NodoBase* Nodo) override;
 
     NodoBase* Pop();

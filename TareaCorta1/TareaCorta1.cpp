@@ -17,6 +17,7 @@ using namespace std;
 
 static const string DIRECTORIO = "C:/Expresiones/";
 
+//Carga un archivo a lista simple y la agrega a una cola estatica
 void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
 {
     ifstream Archivo;
@@ -26,7 +27,7 @@ void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
     Archivo.open(Directorio);
     for (string Linea; getline(Archivo, Linea); ) 
     {
-        //Jank
+        //Dios perdonalos, porque no saben lo que hacen
         bool EsOperador = Linea=="+" || Linea=="-" || Linea=="*" || Linea=="/" || Linea=="^" || Linea=="(" || Linea==")";
         
         if (EsOperador)
@@ -37,8 +38,65 @@ void CargarArchivo(ColaEstatica& ColaArchivos, string NombreArchivo)
             ListaArchivo->AgregarNodo(new NodoNumero(stof(Linea)));
         }
     }
-    //ListaArchivo.Mostrar();
     ColaArchivos.Insertar(ListaArchivo);
+}
+
+//Convierte la expresion de infijo a postfijo
+ListaSimple* ConvertirPostfijo(ListaSimple* ListaInfijo)
+{
+    NodoBase* Aux = ListaInfijo->Primero;
+    PilaDinamica* PilaOps = new PilaDinamica();
+    ListaSimple* ListaPostfijo = new ListaSimple();
+    
+    while (Aux)
+    {
+        //PilaOps->Mostrar();
+        if (Aux->TipoNodo == ETipoNodo::Numero)
+        {
+            ListaPostfijo->AgregarNodo(new NodoNumero(dynamic_cast<NodoNumero*>(Aux)->Valor));
+            Aux = Aux->Siguiente;
+            continue;
+        }
+        if (NodoOperador* Operador = dynamic_cast<NodoOperador*>(Aux))
+        {
+            if (PilaOps->ListaVacia())
+            {
+                PilaOps->AgregarNodo(new NodoOperador(Operador->Operador));
+                Aux = Aux->Siguiente;
+                continue;
+            }
+            if (Operador->Operador == ETipoOperador::ParentesisCierra)
+            {
+                while (NodoOperador* OperadorFlush = dynamic_cast<NodoOperador*>(PilaOps->Pop()) )
+                {
+                    if (OperadorFlush->Operador == ETipoOperador::ParentesisAbre)
+                    {
+                        break;
+                    }
+                    ListaPostfijo->AgregarNodo(new NodoOperador(OperadorFlush->Operador));
+                }
+                Aux = Aux->Siguiente;
+                continue;
+            }
+            NodoOperador* OpEnPila = dynamic_cast<NodoOperador*>(PilaOps->Tope);
+            if (Operador->GetPrioridad(false)<=OpEnPila->GetPrioridad(true))
+            {
+                ListaPostfijo->AgregarNodo(new NodoOperador(OpEnPila->Operador));
+                PilaOps->Pop();
+                PilaOps->AgregarNodo(new NodoOperador(Operador->Operador));
+                Aux = Aux->Siguiente;
+                continue;
+            }
+            PilaOps->AgregarNodo(new NodoOperador(Operador->Operador));
+            Aux = Aux->Siguiente;
+        }
+    }
+
+    while (NodoOperador* OperadorFlush = dynamic_cast<NodoOperador*>(PilaOps->Pop())){
+        ListaPostfijo->AgregarNodo(new NodoOperador(OperadorFlush->Operador));
+    }
+    //PilaOps->Mostrar();
+    return ListaPostfijo;
 }
 
 //Evalua la expresion en postfijo y retorna una pila que debería contener un unico elemento con el resultado final de la evaluación
@@ -63,7 +121,6 @@ PilaDinamica* EvaluarPostOperacion(ListaSimple* ExpPost)
         Aux = Aux->Siguiente;
     }
     return PilaNums;
-    //PilaNums->Mostrar();
 }
 
 int main()
@@ -75,8 +132,31 @@ int main()
     CargarArchivo(ColaArchivos, "Arch3.txt");
     CargarArchivo(ColaArchivos, "Arch4.txt");
     CargarArchivo(ColaArchivos, "Arch5.txt");
-    ColaArchivos.Mostrar();
+    //ColaArchivos.Mostrar();
 
+    for (int i = 0; i<5; i++)
+    {
+        ListaSimple* ExpInfijo = ColaArchivos.GetElemento(i);
+        ExpInfijo->Mostrar();
+
+        ListaSimple* ExpPostfijo = ConvertirPostfijo(ExpInfijo);
+        ExpPostfijo->Mostrar();
+
+        PilaDinamica* Resultado = EvaluarPostOperacion(ExpPostfijo);
+        Resultado->Mostrar();
+
+        cout<<"______________________________________________________________________________"<<endl;
+        
+    }
+    return 0;
+    ColaArchivos.GetElemento(0)->Mostrar();
+    ListaSimple* ExpPost = ConvertirPostfijo(ColaArchivos.GetElemento(0));
+    ExpPost->Mostrar();
+
+    PilaDinamica* Resultado = EvaluarPostOperacion(ExpPost);
+    Resultado->Mostrar();
+    
+    return 0;
     ListaSimple* ExpPostFijo = new ListaSimple();
 
     //3 5 * 2 4 * + 6 -

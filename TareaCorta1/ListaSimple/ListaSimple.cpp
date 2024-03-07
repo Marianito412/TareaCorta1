@@ -23,7 +23,7 @@ void ListaSimple::Mostrar()
     while (Aux!=nullptr)
     {
         Aux->Mostrar();
-        std::cout << " -> ";
+        //std::cout << " -> ";
         Aux=Aux->Siguiente;
     }
     std::cout << "\n";

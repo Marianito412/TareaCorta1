@@ -17,5 +17,7 @@ public:
 
     void Eliminar();
 
+    ListaSimple* GetElemento(int Pos);
+
     void Mostrar();
 };
