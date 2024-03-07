@@ -12,7 +12,7 @@ using namespace std;
  *Tarea Corta 1
  * Elaborado por:
  *      Jose Mariano Soto Núñez, 2020142918
- *      Pablo Ramirez
+ *      Pablo Ramirez, 2019246933
  */
 
 static const string DIRECTORIO = "C:/Expresiones/";
