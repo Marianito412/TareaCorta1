@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "../ListaSimple/ListaSimple.h"
 
 class ColaEstatica
@@ -17,5 +17,8 @@ public:
 
     void Eliminar();
 
-    void Mostrar();
+    void Mostrar(){
+    for (int i = Frente; i <= Fondo; i++) {
+        Cola[i]->Mostrar();
+    }
 };

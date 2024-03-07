@@ -1,23 +1,15 @@
-﻿#pragma once
-#include <iostream>
-
+#pragma once
 #include "NodoBase.h"
 #include <map>
 #include <string>
 
-enum ETipoOperador
-{
-    Suma,
-    Resta,
-    Multiplicacion,
-    Division,
-    Potencia,
-    ParentesisAbre,
-    ParentesisCierra
+enum class ETipoOperador {
+    Suma, Resta, Multiplicacion, Division, Potencia,
+    ParentesisAbre, ParentesisCierra
 };
 
-class NodoOperador: public NodoBase
-{
+class NodoOperador: public NodoBase {
+private:
     std::map<std::string, ETipoOperador> MapaOperadores = {
         {"+", ETipoOperador::Suma},
         {"-", ETipoOperador::Resta},
@@ -27,13 +19,13 @@ class NodoOperador: public NodoBase
         {"(", ETipoOperador::ParentesisAbre},
         {")", ETipoOperador::ParentesisCierra},
     };
+
     ETipoOperador Operador;
+    int PDP;
+    int PFP;
+
 public:
-    NodoOperador(ETipoOperador Op)
-    {
-        Operador = Op;
-        TipoNodo = ETipoNodo::Operacion;
-    }
+    NodoOperador(ETipoOperador Op);
 
     NodoOperador(std::string Op)
     {
@@ -45,13 +37,8 @@ public:
         Operador = MapaOperadores[Op];
         TipoNodo = ETipoNodo::Operacion;
     }
-    virtual float Evaluar(float Num1, float Num2){return Num1+Num2;}
+
+    virtual float Evaluar(float Num1, float Num2);
 
     void Mostrar() override;
-};
-
-class NodoSuma: public NodoOperador
-{
-public:
-    float Evaluar(float Num1, float Num2) {return Num1+Num2;}
 };

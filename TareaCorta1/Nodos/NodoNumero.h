@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "NodoBase.h"
 
 class NodoNumero: public NodoBase
